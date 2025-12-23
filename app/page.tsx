@@ -1,7 +1,7 @@
-import React from 'react';
-import { Linkedin, Github, Twitter } from 'lucide-react';
-import Link from 'next/link';
-import { getAllPosts } from './lib/posts';
+import React from "react";
+import { Linkedin, Github, Twitter, Rss } from "lucide-react";
+import Link from "next/link";
+import { getAllPosts } from "./lib/posts";
 
 export default function HomePage() {
   const posts = getAllPosts();
@@ -39,6 +39,13 @@ export default function HomePage() {
             >
               <Twitter size={32} />
             </a>
+            <a
+              href="/posts/feed.xml"
+              rel="noopener noreferrer"
+              className="hover:text-orange-400 transition-colors"
+            >
+              <Rss size={32} />
+            </a>
           </div>
         </header>
 
@@ -58,10 +65,10 @@ export default function HomePage() {
                   </h3>
                 </Link>
                 <div className="text-gray-400 mb-4 text-sm">
-                  {new Date(post.date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
+                  {new Date(post.date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric"
                   })}
                 </div>
                 <p className="text-gray-300 leading-relaxed">

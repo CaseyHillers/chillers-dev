@@ -22,6 +22,7 @@ This document provides context for Gemini (or other AI assistants) about the `ch
   - `posts/`: Blog post management.
     - `welcome.mdx`: A sample blog post.
     - `[id]/page.tsx`: Dynamic route for individual blog posts.
+    - `feed.xml/`: Directory containing the route handler for the RSS feed.
 - `public/`: Static assets (images, etc.).
 
 ## Common Tasks & Workflows
@@ -42,6 +43,11 @@ This document provides context for Gemini (or other AI assistants) about the `ch
 ### MDX Rendering
 - Blog posts are rendered using the `MDXContent` component located in `app/components/MDXContent.tsx`.
 - This component handles remote MDX processing using `next-mdx-remote`.
+
+### RSS Feed
+- The RSS feed is generated statically at build time.
+- The logic resides in `app/posts/feed.xml/route.ts`.
+- The feed is available at `/posts/feed.xml`.
 
 ### Development Commands
 - `npm run dev`: Start development server.
