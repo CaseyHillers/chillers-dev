@@ -1,6 +1,6 @@
 'use client';
 
-import { MDXRemote } from 'next-mdx-remote';
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
 import { useEffect, useState } from 'react';
 import rehypeHighlight from 'rehype-highlight';
@@ -12,7 +12,7 @@ interface MDXContentProps {
 }
 
 export default function MDXContent({ content }: MDXContentProps) {
-    const [mdxContent, setMdxContent] = useState<any>(null);
+    const [mdxContent, setMdxContent] = useState<MDXRemoteSerializeResult | null>(null);
 
     useEffect(() => {
         const processContent = async () => {

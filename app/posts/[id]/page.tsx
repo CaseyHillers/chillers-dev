@@ -7,8 +7,9 @@ export async function generateStaticParams() {
     return paths;
 }
 
-export default async function Post({ params }: { params: { id: string } }) {
-    const post = await getPostData(params.id);
+export default async function Post({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    const post = await getPostData(id);
 
     return (
         <div className="min-h-screen bg-gray-900 text-white">
