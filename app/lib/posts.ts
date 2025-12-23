@@ -10,6 +10,7 @@ export interface Post {
     date: string;
     description: string;
     content?: string;
+    blueskyId?: string;
 }
 
 export function getAllPostIds() {
@@ -32,7 +33,7 @@ export async function getPostData(id: string): Promise<Post> {
 
     return {
         id,
-        ...(matterResult.data as { title: string; date: string; description: string }),
+        ...(matterResult.data as { title: string; date: string; description: string; blueskyId?: string }),
         content: matterResult.content
     };
 }
@@ -54,7 +55,7 @@ export function getAllPosts(): Post[] {
 
         return {
             id,
-            ...(matterResult.data as { title: string; date: string; description: string }),
+            ...(matterResult.data as { title: string; date: string; description: string; blueskyId?: string }),
         };
     });
 

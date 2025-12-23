@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getPostData, getAllPostIds } from '../../lib/posts';
 import MDXContent from '../../components/MDXContent';
+import BlueskyCommentsWrapper from '../../components/BlueskyComments';
 
 export async function generateStaticParams() {
     const paths = getAllPostIds();
@@ -33,6 +34,7 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
                         })}
                     </div>
                     {post.content && <MDXContent content={post.content} />}
+                    <BlueskyCommentsWrapper author="chillers.dev" uri={post.blueskyId} />
                 </article>
             </div>
         </div>
