@@ -14,7 +14,7 @@ export default function HomePage() {
             Casey Hillers
           </h1>
           <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-            Building cool things, one line of code at a time
+            Building cool things
           </p>
 
           <div className="flex justify-center space-x-6 mb-8">
