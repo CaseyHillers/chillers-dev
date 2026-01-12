@@ -1,0 +1,54 @@
+---
+title: "Learning about cryptographic hardware"
+date: "2026-01-11"
+description: "How small choices can quickly cost a fortune"
+blueskyId: ""
+---
+
+Recently I started at Arm working on the Crypto Operations team. This is a pretty common team to have for chip companies (Qualcomm, Google, etc). The general idea is that we provide guidance on crypto best practices for the organizations. This involves owning various root keys for the chip process.
+
+One of the interesting things about our workloads is we use HSMs (hardware security modules). At a glance, it looks like an expensive server, but it is actually a hardened appliance specializing in cryptographic operations. It includes physical sensors (chassis intrusion) that trigger a 'zeroization' (wiping keys) if tampered with. This avoids exfiltration of the various keys stored on the system.
+
+<img src="https://cpl.thalesgroup.com/sites/default/files/content/paragraphs_type/image_with_col/2020-06/SafeNet-Luna-Network-HSM_0.png" alt="HSM rack" style={{ height: '300px', width: 'auto' }} />
+
+My first project was an attestation service based on AWS. However, many cryptographic requirements (specifically the choice of algorithms) were defined before our team was formed. This architectural inertia led to significant inefficiencies in the new service.
+
+The pain comes from crypto algorithms being chosen that are not supported on AWS KMS. AWS KMS is the most common way of doing various crypto operations, and is the most cost effective. The issue with using HSMs on AWS is you need to reserve instances, and you pay for entire hours. If you run CloudHSM, it can cost $1,000/month for 24/7 access. However, best practice is to run 2 instances for redundancy and various crypto benefits, so we're starting at $2,000/month for production environments. Besides the cost, it's another resource you need to manage, scale, and in general babysit.
+
+Our first project chose CMAC as the message authentication code. Naively, this sounds great as CMAC was created in 2006 compared to the more widely known HMAC which was created in 1997. CMAC comes with some extra benefits as it can be optimized on the hardware side.
+
+The issue with CMAC is that it was not widely picked up. The key example for us is that AWS KMS does not support CMAC. Instead, we have to maintain CloudHSMs to support this in our service.
+
+The downside for CloudHSMs is we now pay several grand compared to what would be a few dollars with AWS KMS.
+
+## When do you need HSMs?
+
+AWS KMS is a great solution for crypto operations, however, if you need to own your crypto keys you're going to want somewhere secure to store your original keys. This is one of the main use cases for our offline HSMs as they store the original copies of all our various keys.
+
+Using key wrapping, you can securely import them into AWS KMS, and not worry about losing the key if it gets deleted from KMS.
+
+## The Ritual of Key Ceremonies
+
+If you decide to manage your own HSMs, you are signing up for "Key Ceremonies."
+
+In movies, accessing root keys involves lasers and iris scanners. In reality, it is a boring, high-stress logistical nightmare. A typical ceremony involves going to a secure facility (often a cage in a data center or a safe in an office) with a specific group of people. You need a Key Administrator, a Witness, and sometimes an auditor.
+
+The process usually involves an air-gapped laptop that has never touched the internet. You generate the key material, split it into shards (using Shamir's Secret Sharing), and write those shards onto smart cards or print them onto paper stored in tamper-evident bags.
+
+Every step is scripted. Every command typed into the terminal is read aloud by the administrator and confirmed by the witness before hitting enter. If you mess up a step, you start over. If you lose a smart card, you might lose the root of trust for your entire company.
+
+This is the hidden cost of HSMs. It is not just the monthly fee for the hardware; it is the human cost of maintaining strict physical security protocols.
+
+## Is there anything cool I can do with KMS?
+
+Besides being much more cost effective, as a service maintained by AWS they have added a few nifty features.
+
+You can do cross-account sharing of your keys, and limit the permissions on those keys. This lets you securely share access to the key with
+your partners and customers without risking giving them the raw key. Additionally, you can leverage CloudTrail to audit the use of the key. At
+any time you can easily revoke their access to the key. In reverse, your customers can provide access to their keys which can be used to encrypt
+their data, avoiding any leaks outside their tenant.
+
+Finally, there is Automatic Rotation. As I mentioned regarding Key Ceremonies, rotating a root key is a terrifying manual event. With KMS, it is a literal checkbox. AWS rotates the backing key material annually, handles the versioning automatically, and you sleep soundly knowing you are compliant. This easily helps you avoid potential crypto burnout.
+
+Recapping, HSMs are a really cool piece of tech. But it's just an expensive computer due to the risks associated with critical keys. If you can, go with a key management service to save yourself a lot of headaches.
+
