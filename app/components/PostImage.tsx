@@ -83,7 +83,7 @@ export default function PostImage({
                 ? createPortal(
                       <div
                           className="fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-black/80 px-4 py-8 backdrop-blur-sm"
-                          onClick={() => setIsOpen(false)}
+                          onPointerDown={() => setIsOpen(false)}
                           role="dialog"
                           aria-modal="true"
                       >
@@ -98,7 +98,7 @@ export default function PostImage({
                               src={zoomSrc ?? src}
                               alt={alt ?? ''}
                               className="max-h-[90vh] max-w-[90vw] rounded-2xl border border-border bg-surface shadow-2xl"
-                              onClick={(event) => event.stopPropagation()}
+                              onPointerDown={(event) => event.stopPropagation()}
                           />
                       </div>,
                       document.body
