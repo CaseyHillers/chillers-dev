@@ -28,7 +28,7 @@ export default function MDXContent({ content }: MDXContentProps) {
     }, [content]);
 
     if (!mdxContent) {
-        return <div>Loading...</div>;
+        return <div className="text-muted">Loading...</div>;
     }
 
     return (

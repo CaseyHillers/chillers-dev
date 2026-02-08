@@ -12,6 +12,12 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        surface: "var(--surface)",
+        "surface-2": "var(--surface-2)",
+        border: "var(--border)",
+        muted: "var(--muted)",
+        ice: "var(--ice)",
+        "ice-strong": "var(--ice-strong)",
       },
       typography: {
         DEFAULT: {
@@ -19,9 +25,9 @@ export default {
             maxWidth: 'none',
             color: 'inherit',
             a: {
-              color: '#60a5fa',
+              color: 'var(--ice)',
               '&:hover': {
-                color: '#93c5fd',
+                color: 'var(--ice-strong)',
               },
             },
             h1: {
@@ -40,11 +46,12 @@ export default {
               color: 'inherit',
             },
             pre: {
-              backgroundColor: '#1f2937',
+              backgroundColor: 'var(--surface-2)',
+              border: '1px solid var(--border)',
               color: 'inherit',
             },
             blockquote: {
-              color: 'inherit',
+              color: 'var(--muted)',
             },
           },
         },

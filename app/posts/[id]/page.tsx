@@ -13,20 +13,20 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
     const post = await getPostData(id);
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white">
+        <div className="min-h-screen bg-background text-foreground">
             <div className="max-w-4xl mx-auto px-4 py-12">
                 <Link
                     href="/"
-                    className="inline-block mb-8 text-blue-400 hover:text-blue-300 transition-colors"
+                    className="inline-block mb-8 text-ice hover:text-ice-strong transition-colors"
                 >
                     ← Back to home
                 </Link>
 
-                <article className="bg-gray-800 rounded-lg p-8 shadow-lg">
-                    <h1 className="text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 tracking-tight">
+                <article className="bg-surface border border-border rounded-lg p-8">
+                    <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-ice-strong tracking-tight">
                         {post.title}
                     </h1>
-                    <div className="text-gray-400 mb-8 text-sm">
+                    <div className="text-muted mb-8 text-sm">
                         {new Date(post.date).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',
