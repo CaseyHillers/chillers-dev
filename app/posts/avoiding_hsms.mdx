@@ -1,7 +1,7 @@
 ---
 title: "Learning about cryptographic hardware"
 date: "2026-01-11"
-description: "How small choices can quickly cost a fortune"
+description: "How cool HSMs are and why cloud based cryptographic operations are cheaper"
 blueskyId: "https://bsky.app/profile/did:plc:t6uqvb3t6ub72h4yewgvxcdx/post/3mc75zw3gdk2i"
 ---
 
@@ -9,7 +9,7 @@ Recently I started at Arm working on the Crypto Operations team. This is a prett
 
 One of the interesting things about our workloads is we use HSMs (hardware security modules). At a glance, it looks like an expensive server, but it is actually a hardened appliance specializing in cryptographic operations. It includes physical sensors (chassis intrusion) that trigger a 'zeroization' (wiping keys) if tampered with. This avoids exfiltration of the various keys stored on the system.
 
-<img src="https://cpl.thalesgroup.com/sites/default/files/content/paragraphs_type/image_with_col/2020-06/SafeNet-Luna-Network-HSM_0.png" alt="HSM rack" style={{ height: '300px', width: 'auto' }} />
+<PostImage src="https://cpl.thalesgroup.com/sites/default/files/content/paragraphs_type/image_with_col/2020-06/SafeNet-Luna-Network-HSM_0.png" alt="HSM rack" caption="HSM for network racks. Its pretty much a linux rack, but specialized in crypto operations with a few safety switches." style={{ height: '300px', width: 'auto' }} />
 
 My first project was an attestation service based on AWS. However, many cryptographic requirements (specifically the choice of algorithms) were defined before our team was formed. This architectural inertia led to significant inefficiencies in the new service.
 
@@ -51,4 +51,3 @@ their data, avoiding any leaks outside their tenant.
 Finally, there is Automatic Rotation. As I mentioned regarding Key Ceremonies, rotating a root key is a terrifying manual event. With KMS, it is a literal checkbox. AWS rotates the backing key material annually, handles the versioning automatically, and you sleep soundly knowing you are compliant. This easily helps you avoid potential crypto burnout.
 
 Recapping, HSMs are a really cool piece of tech. But it's just an expensive computer due to the risks associated with critical keys. If you can, go with a key management service to save yourself a lot of headaches.
-

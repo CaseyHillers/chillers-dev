@@ -13,9 +13,7 @@ In April, at work we were able to create a proof of concept of a realtime conver
 
 I experimented with Metis, Arm’s security review agent, and had it review my team’s codebase for findings, and then tied it together with codex for fixes. It required some hand holding to help fine tune the security agent to avoid creating noise, but in the end a 2 week task took me 3 days. The real impact is that future teams will be able to only spend a day on it. This was a process of AI agents the whole way down. Metis generated its findings in JSON, so I had ChatGPT write a bash script to publish them to our GitLab instance. This helped give a place to review and comment on the issues for data analysis (such as actual findings, duplicates, hallucination). Afterwards, I was able to generate another bash script to pull these security issues from GitLab, and start codex instances to work on them. Some of the magic here was realizing that there’s 3 end states:
 
-<a href="/metis.png" target="_blank" rel="noopener noreferrer" style={{ display: 'block', margin: '0 auto', width: 'fit-content' }}>
-<img src="/metis.png" alt="Diagram of the security findings workflow" style={{ height: '300px', width: 'auto' }} />
-</a>
+<PostImage src="/metis.png" alt="Diagram of the security findings workflow" caption="Metis security findings workflow diagram." style={{ height: '300px', width: 'auto' }} />
 
 With this pipeline created, I was able to run it in the background on my workstation in a few hours for a 15K LOC codebase. The final part was human review of the MRs with the attached security finding. This combo made it really fast to validate whether we had actual security concerns. In the end, I accepted about half of the fixes, and I found the ones that were most applicable were less than 10 LOC diffs.
 

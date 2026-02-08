@@ -11,31 +11,21 @@ The past few years I have become a local expert in digitizing physical media. I 
 
 2021 was the first house I worked on. A family member nearby had grown recluse during covid, and became a hoarder. The difficult part about this house was that there was so much stuff. I wanted to make sure we didn't throw out or sell anything important. To show the magnitude, we did a garage sale for 3 days. Every day we would make two trips to bring stuff to sell, resulting in the side of the house filled with the shipping boxes.
 
-<a href="/digitizing_garage_boxes.jpg" target="_blank" rel="noopener noreferrer" style={{ display: 'block', margin: '0 auto', width: 'fit-content' }}>
-<img src="/digitizing_garage_boxes.jpg" alt="Large amount of collapsed boxes on the side of the garage" style={{ height: '500px', width: 'auto' }} />
-</a>
+<PostImage src="/digitizing_garage_boxes.jpg" alt="Large amount of collapsed boxes on the side of the garage" caption="Collapsed boxes after the three-day garage sale." style={{ height: '500px', width: 'auto' }} />
 
-After several weeks of work with my family working on clearing out this house, we ended up with the final boxes. These were photographs, letters, and negatives.
+After several weeks with my family working on clearing out this house, we ended up with the final boxes. These were photographs, letters, and negatives.
 
 I wanted to start with negatives we found. We had gotten a large box of negatives with just over 100 shots. The interesting thing here is you can't easily filter out which were the good negatives. So it's a tedious process as you'll scan everything. I was able to buy a license for VueScan and borrow a scanner to go through these negatives. It was pretty fast as you could load up 5 at a time, then VueScan applied some clean up and cropping for the images. I don't think a lot of these negatives had been looked at in 60 years, so it was a bummer to see that some of them were blurry.
 
 <div className="flex flex-col items-center gap-4 sm:flex-row sm:flex-nowrap sm:justify-center">
-  <a href="/digitizing_film.jpg" target="_blank" rel="noopener noreferrer" className="block">
-    <img src="/digitizing_film.jpg" alt="Box of negatives" style={{ height: '240px', width: 'auto' }} />
-  </a>
-  <a href="/digitizing_film_disneyland.jpg" target="_blank" rel="noopener noreferrer" className="block">
-    <img src="/digitizing_film_disneyland.jpg" alt="Negative of Disneyland" style={{ height: '240px', width: 'auto' }} />
-  </a>
-  <a href="/digitizing_film_japan.jpg" target="_blank" rel="noopener noreferrer" className="block">
-    <img src="/digitizing_film_japan.jpg" alt="Negative of Japan" style={{ height: '240px', width: 'auto' }} />
-  </a>
+  <PostImage src="/digitizing_film.jpg" alt="Box of negatives" caption="A box of negatives" style={{ height: '240px', width: 'auto' }} />
+  <PostImage src="/digitizing_film_disneyland.jpg" alt="Negative of Disneyland" caption="Negative of Disneyland" style={{ height: '240px', width: 'auto' }} />
+  <PostImage src="/digitizing_film_japan.jpg" alt="Negative of Japan" caption="Negative of Japan" style={{ height: '240px', width: 'auto' }} />
 </div>
 
 Photographs were a much more time consuming process. There was much more prep work before I could scan them. Some of them were glued into paper frames, stuck in protective plastic binder sheets, and the list goes on. Naively, I scanned one photo at a time. I thought that would make it easier to crop them, but I never went back to do this.
 
-<a href="/digitizing_scan_photo.jpg" target="_blank" rel="noopener noreferrer" style={{ display: 'block', margin: '0 auto', width: 'fit-content' }}>
-<img src="/digitizing_scan_photo.jpg" alt="Example raw photo scan" style={{ height: '300px', width: 'auto' }} />
-</a>
+<PostImage src="/digitizing_scan_photo.jpg" alt="Example raw photo scan" caption="Raw scan with a single photo" style={{ height: '300px', width: 'auto' }} />
 
 ## 2025
 
@@ -57,9 +47,7 @@ The painful part about recording the tapes is that you have to play it back at 1
 
 Out of 60 tapes, 4 were unable to be played. I was able to 3D print a manual VHS rewinder. The belief was they had glued themselves shut, and some extra TLC would get them moving again. I would spend a few minutes twisting the gears on the tapes to get them going again.
 
-<a href="/digitizing_vhs.jpg" target="_blank" rel="noopener noreferrer" style={{ display: 'block', margin: '0 auto', width: 'fit-content' }}>
-<img src="/digitizing_vhs.jpg" alt="Example raw photo scan" style={{ height: '300px', width: 'auto' }} />
-</a>
+<PostImage src="/digitizing_vhs.jpg" alt="VHS station" caption="VHS tape digitization station. VCR player connects to an AV->HDMI converter, then to a HDMI capture card. My MacBook captures everything, but requires the PS5 to be on to power the AV converter" style={{ height: '300px', width: 'auto' }} />
 
 After 5 days, I was able to digitize all the boxes of tapes. I ended up with 15 hours of tapes to go through. Each tape could have several smaller tapes on it. Think family Christmas, a TV movie, then a house tour. This was a tedious process to find and cut the precise points.
 
@@ -83,9 +71,7 @@ I hand wrote a python script to do edge detection on my scanned JPGs. In simple 
 
 I thought about it overnight, and magically Meta released [SAM3](https://ai.meta.com/research/sam3/) the next day. SAM3 is an image classification model, and is very overkill for what I needed. It can give masks for where the rabbits are in a photo. I loaded it up onto my 3060, and asked it to give me "photographs" and processed the raw scans. It was super successful! It gives non-rectangular polygons, but that was a simple fix by getting the bounds for each of the 4 points in a rectangle.
 
-<a href="/digitizing_sam3.png" target="_blank" rel="noopener noreferrer" style={{ display: 'block', margin: '0 auto', width: 'fit-content' }}>
-<img src="/digitizing_sam3.png" alt="Example classification with SAM3 identifying the photographs in a scan" style={{ height: '300px', width: 'auto' }} />
-</a>
+<PostImage src="/digitizing_sam3.png" alt="Example classification with SAM3 identifying the photographs in a scan" caption="SAM3 masks identifying photos in a scan." style={{ height: '300px', width: 'auto' }} />
 
 ## Takeaways
 

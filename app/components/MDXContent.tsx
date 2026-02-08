@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import 'highlight.js/styles/github-dark.css';
+import PostImage from './PostImage';
 
 interface MDXContentProps {
     content: string;
@@ -33,7 +34,13 @@ export default function MDXContent({ content }: MDXContentProps) {
 
     return (
         <div className="prose prose-invert prose-lg max-w-none">
-            <MDXRemote {...mdxContent} />
+            <MDXRemote
+                {...mdxContent}
+                components={{
+                    img: PostImage,
+                    PostImage,
+                }}
+            />
         </div>
     );
 } 
