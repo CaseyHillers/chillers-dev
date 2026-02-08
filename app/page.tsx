@@ -59,17 +59,19 @@ export default function HomePage() {
                 key={post.id}
                 className="bg-surface border border-border rounded-lg p-6 hover:border-ice hover:bg-surface-2 transition-colors"
               >
-                <Link href={`/posts/${post.id}`}>
-                  <h3 className="text-xl sm:text-2xl font-semibold mb-2 hover:text-ice transition-colors tracking-tight">
-                    {post.title}
-                  </h3>
-                </Link>
-                <div className="text-muted mb-4 text-sm">
-                  {new Date(post.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric"
-                  })}
+                <div className="flex flex-wrap items-baseline justify-between gap-4 mb-2">
+                  <Link href={`/posts/${post.id}`}>
+                    <h3 className="text-xl sm:text-2xl font-semibold hover:text-ice transition-colors tracking-tight">
+                      {post.title}
+                    </h3>
+                  </Link>
+                  <div className="text-muted text-sm">
+                    {new Date(post.date).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric"
+                    })}
+                  </div>
                 </div>
                 <p className="text-muted leading-relaxed">
                   {post.description}
