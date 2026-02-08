@@ -10,11 +10,16 @@ export default function HomePage() {
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-4xl mx-auto px-4 py-12">
         <header className="text-center mb-16">
+          <img
+            src="/profile.png"
+            alt="Casey Hillers profile photo"
+            className="mx-auto mb-6 h-28 w-28 rounded-full border border-border object-cover shadow-sm"
+          />
           <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-ice tracking-tight">
             Casey Hillers
           </h1>
           <p className="text-lg sm:text-xl text-muted mb-8 leading-relaxed">
-            Building cool things
+            Software engineer praying for salvation
           </p>
 
           <div className="flex justify-center space-x-6 mb-8 text-muted">
