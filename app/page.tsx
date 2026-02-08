@@ -55,28 +55,30 @@ export default function HomePage() {
           </h2>
           <div className="space-y-8">
             {posts.map((post) => (
-              <article
+              <Link
                 key={post.id}
-                className="bg-surface border border-border rounded-lg p-6 hover:border-ice hover:bg-surface-2 transition-colors"
+                href={`/posts/${post.id}`}
+                className="group block"
+                aria-label={`Read ${post.title}`}
               >
-                <div className="flex flex-wrap items-baseline justify-between gap-4 mb-2">
-                  <Link href={`/posts/${post.id}`}>
-                    <h3 className="text-xl sm:text-2xl font-semibold hover:text-ice transition-colors tracking-tight">
+                <article className="bg-surface border border-border rounded-lg p-6 transition-colors group-hover:border-ice group-hover:bg-surface-2">
+                  <div className="flex flex-wrap items-baseline justify-between gap-4 mb-2">
+                    <h3 className="text-xl sm:text-2xl font-semibold transition-colors tracking-tight group-hover:text-ice">
                       {post.title}
                     </h3>
-                  </Link>
-                  <div className="text-muted text-sm">
-                    {new Date(post.date).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric"
-                    })}
+                    <div className="text-muted text-sm">
+                      {new Date(post.date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric"
+                      })}
+                    </div>
                   </div>
-                </div>
-                <p className="text-muted leading-relaxed">
-                  {post.description}
-                </p>
-              </article>
+                  <p className="text-muted leading-relaxed">
+                    {post.description}
+                  </p>
+                </article>
+              </Link>
             ))}
           </div>
         </main>
