@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getPostData, getAllPostIds } from '../../lib/posts';
+import { formatPostDate } from '../../lib/formatDate';
 import MDXContent from '../../components/MDXContent';
 import BlueskyCommentsWrapper from '../../components/BlueskyComments';
 
@@ -27,11 +28,7 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
                         {post.title}
                     </h1>
                     <div className="text-muted mb-8 text-sm">
-                        {new Date(post.date).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        })}
+                        {formatPostDate(post.date)}
                     </div>
                     {post.content && <MDXContent content={post.content} />}
                     <BlueskyCommentsWrapper author="chillers.dev" uri={post.blueskyId} />

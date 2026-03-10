@@ -2,6 +2,7 @@ import React from "react";
 import { Linkedin, Github, Twitter, Rss } from "lucide-react";
 import Link from "next/link";
 import { getAllPosts } from "./lib/posts";
+import { formatPostDate } from "./lib/formatDate";
 
 export default function HomePage() {
   const posts = getAllPosts();
@@ -72,11 +73,7 @@ export default function HomePage() {
                       {post.title}
                     </h3>
                     <div className="text-muted text-sm">
-                      {new Date(post.date).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric"
-                      })}
+                      {formatPostDate(post.date)}
                     </div>
                   </div>
                   <p className="text-muted leading-relaxed">
