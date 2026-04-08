@@ -63,7 +63,14 @@ export default function TokenUsageChart() {
                                 color: '#f8fafc',
                             }}
                             labelStyle={{ color: '#cbd5e1', marginBottom: '0.25rem' }}
-                            formatter={(value: number) => [`${formatPrecise(value)}M tokens`, 'Usage']}
+                            formatter={(value) => {
+                                const numericValue =
+                                    typeof value === 'number'
+                                        ? value
+                                        : Number(Array.isArray(value) ? value[0] : value);
+                                const safeValue = Number.isFinite(numericValue) ? numericValue : 0;
+                                return [`${formatPrecise(safeValue)}M tokens`, 'Usage'] as const;
+                            }}
                         />
                         <Line
                             type="monotone"
