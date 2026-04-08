@@ -7,6 +7,7 @@ import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import 'highlight.js/styles/github-dark.css';
 import PostImage from './PostImage';
+import TokenUsageChart from './TokenUsageChart';
 
 interface MDXContentProps {
     content: string;
@@ -39,6 +40,7 @@ export default function MDXContent({ content }: MDXContentProps) {
                 components={{
                     img: PostImage,
                     PostImage,
+                    TokenUsageChart,
                 }}
             />
         </div>

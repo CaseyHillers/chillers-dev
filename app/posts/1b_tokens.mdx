@@ -1,0 +1,65 @@
+---
+title: "What Changed After Hitting 1B tokens/month"
+date: "2026-04-08"
+description: "Doubling my token cost every month at what cost"
+blueskyId: ""
+---
+
+A few months ago LLMs were like an extra coworker on hand. Today, it's like managing my own team. I wanted to take some time reflect what's changed since I'm now at 1 billion tokens a month.
+
+<TokenUsageChart />
+
+## 1. Multiple sessions at once
+
+Codex released their MacOS app. Naively, I am a terminal person so didn't see the initial value in it. However, it's clear to me its a bigger add than a wrapper around tmux. With the CLI version of Codex, I was running a max of 3 sessions at once. With the app version, I have counted myself running up to 10 sessions at once. It's easier to manage, see what's being worked on, and see what needs my attention.
+
+## 2. Plan out the work
+
+Every coding tool has a plan mode now. Use it to brainstorm and flesh out your ideas. Anything that is non-trivial (such as small bug fixes) should go through the plan mode. I find my one-shot success rate with sessions goes from 30% to over 80% when I use plan mode.
+
+Additionally, it helps me realize if there's more work than I expected. I find the agents today only do well when their overall diff is going to be less than 1000 LOC.
+
+## 3. Build out test infrastructure
+
+With development being automated, testing needs to be automated. Unit tests are okay, and I consider them mostly throwaway at this point to give confidence in the initial sessions.
+
+Instead, look at writing integration tests and having development environments the agents can deploy to verify their changes. This can include golden tests for prompts, UI changes, and expected database state.
+
+## 4. Going full AI native development
+
+### Multi-model development
+
+I use Codex heavily at work, but having Codex review rarely produces anything meaningful. Instead, I have a review phase that will use other models (Claude Opus today) to generate the code review. Then codex can immediately go through and address the concerns. This minimizes the amount of time I spend reviewing and iterating with codex on the final change.
+
+### Skills
+
+Anytime there is work I find myself repeating to the agents, I codify it into a skill. In most agents, you can now run `$SKILL_CREATOR` at the end of your session (or fork) based on it's learnings. Some examples that I have generated:
+
+- Gerrit CL - Specific instructions on how to commit changes, update changes, and push CLs in Gerrit envs
+- GitLab MR - Push the changes to a GitLab MR
+- Green GitLab - Poll GitLab CI to verify a change is green, and fix it until it is green. Exit after 5 attempts
+- Load Test - Check our AWS env, record the current state, get to a clean queue, and run various load tests against the given env. Generate the final report so I can compare what a change does
+
+### Automations
+
+- Clean Git Project - Delete merged worktrees/branches, delete branches older than a week, clean up remote. Daily job
+    - This very well could be a bash script on a cron job, but I like that it can notify me of things that require my attention
+- Release notes - Review various repositories and generate notable items from the past 2 weeks
+
+## 5. Try everything in Codex first
+
+In my workday, I'll have a lot of thoughts I am curious about. I have started to write them down into Codex, and have it work on them. I won't check it for a few hours as it's not urgent, but I am amazed at the type of work that's getting down.
+
+I made an observation that our system could be made faster, so I asked codex investigate and create a plan. A few hours later we were having a team discussion, and I was able to map out the action items we should do from codex. This is work that will be done over several PRs, but I was very out of the loop except for the final code review and verifying the benchmarks were correct.
+
+Whenever I am curious about how to do something, I kick off a local deep research agent that will use MCP for Slack and Confluence to build a report.
+
+Continuously ask around and see what others are using codex for. I was taken aback when I saw someone using it as a video editor as it was a use case that never occurred to me.
+
+## What's next?
+
+I'm really excited about Gemma 4. I'm curious how we can pair local models to sub-agents to improve overall performance. Such as having Codex generate the plan of work for something that might take a minute, like committing a PR, and having Gemma 4 deal with it on the side.
+
+As I continue to scale AI development, I continue to build out more safeguards. This includes alerts, better testing, and more skills to verify everything E2E.
+
+Lastly, I want to find a better way to evaluate new models for my local flows. I loved GPT 5.2 Codex, and it was the powerhouse that got me to a billion tokens. 5.3 felt like a small downgrade, and 5.4 was a large downgrade. I need to find ways to evaluate these models before I incorporate them into my day-to-day work.
