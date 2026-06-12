@@ -1,0 +1,63 @@
+---
+title: "Vibe Engineering: From Prototypes to Production"
+date: "2026-06-12"
+description: "Moving from vibe coding prototypes to production-ready AI engineering workflows."
+topics:
+  - AI Agents
+  - Tooling
+  - Engineering
+---
+
+Remember when tinkering with a game mod or building a simple website felt like secret knowledge? For a long time, this kind of creation was reserved for those who spent years learning the syntax. Now, the barrier to entry has effectively evaporated. Anyone can describe a feature, and the computer writes the code.
+
+This is a massive shift. But just because everyone can write code does not mean everything works. There is still a world of difference between a fun prototype and critical software that needs to stay online at 3 AM.
+
+That is where vibe engineering comes in. It is the transition from just writing code to orchestrating it. It is about building the infrastructure, guardrails, and context that allow AI agents to move beyond toy demos and actually contribute to the production lifecycle.
+
+# What is Vibe Engineering?
+
+Vibe Engineering is the systematic orchestration of AI agents within a professional development lifecycle. While vibe coding is about democratization (allowing anyone to build), vibe engineering is about leverage. It requires fundamental knowledge of how to code, but it shifts your focus toward context engineering, specification-driven development, and critical verification.
+
+# Embedding Vibes into Engineering Workflows
+
+In a professional setting, we do not just vibe and hope for the best. We embed these tools into our existing workflows. It starts by giving the agent a place to work.
+
+## The Sandbox
+
+For an agent to be effective, it needs to see and do. This means providing containerized environments where they can execute code, headless browser access to verify UI changes, and full access to the tools a human developer uses, like linters and CLIs.
+
+## The Safety Net
+
+As code volume increases, so does the risk of code overload and technical debt. To combat this, we rely on the classic testing pyramid to ensure that vibe-generated changes do not break the world.
+
+* **Unit Tests:** Validating atomic logic.
+* **Integration Tests:** Ensuring new modules play nice with existing ones.
+* **E2E Tests:** Checking that the user journey remains intact.
+
+## Goldens Testing
+
+Use golden testing to get a baseline. Whether it is UI screenshots or database outputs, having a known good state is essential. Compare screenshots of a generated UI against the baseline to catch design flaws, and validate migrations against a test database before they touch production.
+
+## Production Access
+
+We need to triage fast. Providing agents with read-only access to production logs and database replicas turns them into first responders. They can correlate logs with code and summarize why a user is seeing that 500 error.
+
+## Project Memory
+
+Similar to the concept of a context library, I maintain a top-level `docs/` folder in every project. This serves as the agent's long-term memory.
+
+* **docs/design-docs/:** Contains high-level architecture with current implementation status.
+* **docs/research/:** (Gitignored) A place for the agent to dump web research and deep dives for fast lookup.
+* **docs/wiki/:** General instructions, on-call guides, and dev environment setup.
+
+# Adversarial Reviews
+
+I use an adversarial review process to drastically reduce the human toil spent on agent-generated output. I have one agent generate a PR, and then I use a different model to perform the initial review. This way, the models sort out the easy issues and style nits before I ever see the code. When I step in for the final human review, I am looking at a near-final product. My focus remains high-level: Does the UI match my intent? Does this implementation fit where it belongs in the codebase?
+
+# Reflection & Continuous Learning
+
+The real secret to scaling AI-native productivity is the reflection loop. When an agent encounters a recurring error or a style mismatch, we do not just fix the code in isolation. We update the project context, such as a `docs/wiki/go-styleguide.md`, to ensure the mistake does not happen again. This continuous learning process ensures that agents learn from their errors and improve their future performance across the entire lifecycle.
+
+# Conclusion
+
+When these pieces tie together, testing, context, and verification, you empower your agents to do their best work. You can kick off a task, walk away, and return to a solution that is not just a vibe. It is engineered.
