@@ -28,7 +28,7 @@ export default function PostImage({
     const trimmedCaption = resolvedCaption?.trim();
     const hasCaption = Boolean(trimmedCaption);
     const imageClassName = [
-        'block max-w-full rounded-2xl border border-border bg-surface/60 shadow-sm transition-transform duration-300 group-hover:scale-[1.01]',
+        'block max-w-full rounded-lg border border-border bg-surface/60 shadow-lg shadow-black/15 transition-transform duration-300 group-hover:scale-[1.01]',
         className,
     ]
         .filter(Boolean)
@@ -56,10 +56,10 @@ export default function PostImage({
     }, [isOpen]);
 
     return (
-        <figure className="not-prose my-6 flex flex-col items-center gap-2">
+        <figure className="not-prose my-8 flex flex-col items-center gap-3">
             <button
                 type="button"
-                className="group mx-auto inline-flex cursor-zoom-in rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ice/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="group mx-auto inline-flex cursor-zoom-in rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ice/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-label={hasCaption ? `Enlarge image: ${trimmedCaption}` : 'Enlarge image'}
                 onClick={() => setIsOpen(true)}
             >
@@ -75,7 +75,7 @@ export default function PostImage({
                 />
             </button>
             {hasCaption ? (
-                <figcaption id={captionId} className="text-sm text-muted text-center">
+                <figcaption id={captionId} className="max-w-2xl text-center text-sm leading-6 text-muted">
                     {trimmedCaption}
                 </figcaption>
             ) : null}
@@ -89,7 +89,7 @@ export default function PostImage({
                       >
                           <button
                               type="button"
-                              className="absolute right-5 top-5 rounded-full border border-border bg-surface/90 px-3 py-1 text-sm text-foreground shadow-lg transition hover:bg-surface"
+                              className="absolute right-5 top-5 rounded-md border border-border bg-surface/90 px-3 py-1 text-sm text-foreground shadow-lg transition hover:bg-surface"
                               onClick={() => setIsOpen(false)}
                           >
                               Close
@@ -97,7 +97,7 @@ export default function PostImage({
                           <img
                               src={zoomSrc ?? src}
                               alt={alt ?? ''}
-                              className="max-h-[90vh] max-w-[90vw] rounded-2xl border border-border bg-surface shadow-2xl"
+                              className="max-h-[90vh] max-w-[90vw] rounded-lg border border-border bg-surface shadow-2xl"
                               onPointerDown={(event) => event.stopPropagation()}
                           />
                       </div>,

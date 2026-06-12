@@ -34,7 +34,35 @@ export default function MDXContent({ content }: MDXContentProps) {
     }
 
     return (
-        <div className="prose prose-invert prose-lg max-w-none">
+        <div className="prose prose-invert prose-lg max-w-3xl
+            prose-headings:tracking-tight
+            prose-headings:text-foreground
+            prose-p:leading-8
+            prose-p:text-foreground/90
+            prose-a:font-medium
+            prose-a:text-ice
+            hover:prose-a:text-ice-strong
+            prose-strong:text-ice-strong
+            prose-code:rounded
+            prose-code:bg-surface
+            prose-code:px-1.5
+            prose-code:py-0.5
+            prose-code:text-ice-strong
+            prose-code:before:content-none
+            prose-code:after:content-none
+            prose-pre:rounded-lg
+            prose-pre:border
+            prose-pre:border-border
+            prose-pre:bg-surface-2
+            prose-pre:shadow-lg
+            prose-pre:shadow-black/15
+            prose-blockquote:border-l-ice
+            prose-blockquote:bg-surface/50
+            prose-blockquote:px-5
+            prose-blockquote:py-1
+            prose-blockquote:text-muted
+            prose-hr:border-border
+        ">
             <MDXRemote
                 {...mdxContent}
                 components={{

@@ -9,8 +9,45 @@ export interface Post {
     title: string;
     date: string;
     description: string;
+    topics: string[];
+    readingTime: string;
     content?: string;
     blueskyId?: string;
+}
+
+type PostFrontmatter = {
+    title: string;
+    date: string;
+    description: string;
+    blueskyId?: string;
+    topics?: string[];
+};
+
+function getReadingTime(content: string): string {
+    const words = content
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/[^\w\s'-]/g, ' ')
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+    const minutes = Math.max(1, Math.ceil(words.length / 220));
+
+    return `${minutes} min read`;
+}
+
+function normalizePost(id: string, data: PostFrontmatter, content?: string): Post {
+    const topics = Array.isArray(data.topics) ? data.topics : [];
+
+    return {
+        id,
+        title: data.title,
+        date: data.date,
+        description: data.description,
+        blueskyId: data.blueskyId,
+        topics,
+        readingTime: getReadingTime(content ?? ''),
+        content,
+    };
 }
 
 export function getAllPostIds() {
@@ -31,11 +68,7 @@ export async function getPostData(id: string): Promise<Post> {
     // Use gray-matter to parse the post metadata section
     const matterResult = matter(fileContents);
 
-    return {
-        id,
-        ...(matterResult.data as { title: string; date: string; description: string; blueskyId?: string }),
-        content: matterResult.content
-    };
+    return normalizePost(id, matterResult.data as PostFrontmatter, matterResult.content);
 }
 
 export function getAllPosts(): Post[] {
@@ -53,12 +86,9 @@ export function getAllPosts(): Post[] {
         // Use gray-matter to parse the post metadata section
         const matterResult = matter(fileContents);
 
-        return {
-            id,
-            ...(matterResult.data as { title: string; date: string; description: string; blueskyId?: string }),
-        };
+        return normalizePost(id, matterResult.data as PostFrontmatter, matterResult.content);
     });
 
     // Sort posts by date
     return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1));
-} 
+}

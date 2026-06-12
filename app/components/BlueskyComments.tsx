@@ -10,8 +10,8 @@ interface Props {
 
 export default function BlueskyCommentsWrapper({ uri, author }: Props) {
   return (
-    <div className="mt-12 pt-8 border-t border-border bluesky-comments-wrapper">
-        <h2 className="text-2xl font-bold mb-6 text-ice">Comments</h2>
+    <div className="bluesky-comments-wrapper mt-14 max-w-3xl border-t border-border pt-8">
+        <h2 className="mb-6 text-2xl font-semibold tracking-tight text-ice">Comments</h2>
         <BlueskyComments
             author={author}
             uri={uri}
