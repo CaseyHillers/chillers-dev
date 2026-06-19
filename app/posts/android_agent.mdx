@@ -1,0 +1,29 @@
+---
+title: "Research: Android Agent"
+date: "2025-02-19"
+uploaded: "2026-06-19"
+description: "Reflections on leading the development of the first Android agent, combining computer use models with virtual displays for background tasks"
+topics:
+  - Mobile
+  - AI
+  - Agents
+---
+
+As the lead on the Android agent project, I worked across our cloud and Android stacks to create the first Android agent. Using state-of-the-art multimodal models from frontier labs, we combined vision with the model's ability to output commands for driving the device and formulating plans to achieve any requested task.
+
+<YouTube id="_Kg8G41ZvHU" title="Research Preview: Android Agent" />
+
+### Beyond Simple Device Driving
+
+Agents driving computers wasn't necessarily what was novel, but what was interesting was our use of **Android's Virtual Display**. By leveraging virtual displays, we unlocked two critical capabilities:
+
+1. **Background Execution**: We could run tasks in the background without blocking the user's active screen or interrupting their flow.
+2. **Dynamic Screen Sizing**: We could size the virtual display dynamically to the ideal aspect ratio for a given app or task. For faster, simpler tasks, we simulated smartphones (smaller screen size, meaning fewer tokens per screenshot/step). For information-intense tasks like web research, we spun up a tablet-sized interface.
+
+While doing everything on an Android agent wasn't always optimal, having this capability run on a cheap, physical Android device was the cool part. It empowered people outside of massive data centers to create and deploy their own local agents.
+
+### Industry Impact
+
+One of the most rewarding parts of the project was seeing the immense interest from major smartphone manufacturers, which led to opportunities to demo the agent directly to their VPs. 
+
+It's also been fascinating to watch the space evolve since then. Google has recently gotten close to implementing something very similar in Android and Gemini with their [Gemini multi-step task functionality](https://blog.google/innovation-and-ai/products/gemini-app/android-multi-step-tasks/).

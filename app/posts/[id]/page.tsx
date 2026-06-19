@@ -31,6 +31,12 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
                     <div className="max-w-3xl">
                         <div className="mb-5 flex flex-wrap items-center gap-3 text-sm text-muted">
                             <span>{formatPostDate(post.date)}</span>
+                            {post.uploaded && (
+                                <>
+                                    <span aria-hidden="true">•</span>
+                                    <span>Uploaded: {formatPostDate(post.uploaded)}</span>
+                                </>
+                            )}
                             <span aria-hidden="true">/</span>
                             <span>{post.readingTime}</span>
                         </div>

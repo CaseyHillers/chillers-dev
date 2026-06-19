@@ -13,6 +13,7 @@ export interface Post {
     readingTime: string;
     content?: string;
     blueskyId?: string;
+    uploaded?: string;
 }
 
 type PostFrontmatter = {
@@ -21,6 +22,7 @@ type PostFrontmatter = {
     description: string;
     blueskyId?: string;
     topics?: string[];
+    uploaded?: string;
 };
 
 function getReadingTime(content: string): string {
@@ -47,6 +49,7 @@ function normalizePost(id: string, data: PostFrontmatter, content?: string): Pos
         topics,
         readingTime: getReadingTime(content ?? ''),
         content,
+        uploaded: data.uploaded,
     };
 }
 

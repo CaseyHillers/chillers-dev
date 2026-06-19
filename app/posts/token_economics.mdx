@@ -1,0 +1,96 @@
+---
+title: "The Fallacy of the 'Unprofitable' AI Subscription"
+date: "2026-06-19"
+description: "Why flat-rate AI subscriptions aren't the cash incinerator they look like on paper."
+topics:
+  - AI Agents
+  - Engineering
+---
+
+Every few weeks, the tech press starts recirculating the same panic-inducing headline: *AI companies are burning insane amounts of cash on their flat-rate subscriptions.*
+
+The reality is that flat-rate subscriptions are incredibly cost-effective for developers compared to paying for tokens individually. A recent community discussion on [r/codex](https://www.reddit.com/r/codex/comments/1t0qol0/how_much_expensive_is_api_key_compare_to/) highlighted just how stark this difference is.
+
+According to user estimates, the $20/$25 Plus/Business plans provide the equivalent of roughly $12 of tokens per 5-hour window. Extrapolated, that's about $72 per week or $284 per month in API-equivalent token value. For power users, the value scales to around 5x on the $100 Pro plan (around $1,420 per month) and up to 10x on the $200 Pro plan (around $2,840 per month).
+
+<SubscriptionValueChart />
+
+To put this in perspective: **buying API credits individually is around 10x more expensive** than relying on the credits built into these plans. 
+
+As someone whose workflows have scaled to [a billion tokens a month](/posts/1b_tokens) (running less than $300/month on GPT 5.5 xhigh), this framing feels totally disconnected from reality. 
+
+For my day-to-day work, the only reason I pay for raw API access over a subscription is throughput. I work a 9 to 5. Sometimes I am locked in meetings, and then there are focus periods where I can build. A subscription with a rate limit would reduce my productivity at work.
+
+I pay for a personal codex subscription. Maybe in the morning or evening I want to quickly hack something together. Its fun, and it works well for the subscription model. I also find it motivating to keep me coming back. However, I am not a power user for it. I only use a third of the total quota available to me, and I still suspect OpenAI is making money off of me.
+
+When you actually look at how token serving works under the hood, the economics tell a very different story.
+
+---
+
+## 1. Retail API prices are not internal costs
+
+The big mistake in these calculations is that they equate public API retail rates with what it actually costs a lab to serve a token. 
+
+Software has always been a lucrative business. Low cap-ex allows for margins of 10x the costs. Frontier labs are one of the first few "tech" companies that have high cap-ex due to the datacenter build outs.
+
+Frontier models easily run on 70% to 90% gross margins. If you are paying $10 per million output tokens on the API, the actual physical cost to serve those tokens—covering the electricity, the cooling, and the amortized cost of the server rack—is probably under a dollar. 
+
+So if a power user runs through $1,400 worth of "API-equivalent" tokens on a subscription, it's not a $1,400 cash drain for the provider. It's costing them less than $140. That's a highly manageable cost that is easily covered by average users who don't max out their limits.
+
+---
+
+## 2. The idle compute arbitrage
+
+Unlike normal SaaS companies, AI labs are heavily constrained by physical hardware. They have to buy enough GPU clusters to handle absolute peak demand from low-latency API customers. 
+
+But internet traffic has peaks and valleys. During off-peak hours, nights, and weekends, these multi-million-dollar clusters sit mostly idle. A powered-on [NVIDIA H100](https://www.nvidia.com/en-us/data-center/h100/) draws about 300W just sitting there, and jumps to 700W under load. 
+
+Since the massive capital cost of buying the hardware is already paid for by high-margin API traffic, the marginal cost of running a subscription query during quiet hours is incredibly low. You are essentially just paying the 400W electricity difference to put the GPU under load. Subscription users run at lower priority and without strict response-time guarantees, which means they are just absorbing capacity that would otherwise be wasted.
+
+---
+
+## 3. Power users are free data labelers
+
+Right now, the bottleneck for building the next frontier model isn't just money—it's high-quality training data. 
+
+AI labs pay contractors tens of millions of dollars to write code, build projects, and correct model mistakes to generate data for RLHF (Reinforcement Learning from Human Feedback). 
+
+But they can't use developer API data because enterprise privacy terms block it. Instead, they rely on consumer subscriptions (where data sharing is opted-in by default). If you are a power user using Claude Pro or ChatGPT Plus to run complex agentic loops, debug code, and guide the model through multi-step errors, you are generating some of the most valuable training data on the planet. You are essentially acting as an expert systems annotator—except instead of paying you $100 an hour, they are charging you $20 a month.
+
+---
+
+## 4. Prompt caching actually increases margins
+
+For coding tools like Cursor, Claude Code, or Codex, prompt caching is a massive game-changer. 
+
+In agentic workflows, the model needs to see your codebase context, relevant files, and instructions. Sending a 100,000-token prompt over and over in a multi-turn conversation is incredibly heavy. The "prefill" stage where the model processes all those input tokens is the most compute-intensive part of the run.
+
+With prompt caching, the model stores the state of that codebase context in high-speed memory. Subsequent turns read the cache directly, bypassing 95% of the prefill work. 
+
+Labs advertise this as a cost-saving feature for developers, offering [OpenAI's 50% discount](https://platform.openai.com/docs/guides/prompt-caching) or [Anthropic's 90% discount](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching). But because the internal compute requirement drops by 95% while the price only drops by 50% to 90%, the provider's margins on cached requests are actually *higher* than on clean, uncached requests. It makes agentic loops affordable for the developer, but it makes them even more profitable for the lab.
+
+---
+
+## 5. Gym membership economics
+
+The idea that a subscriber burns ten grand of compute assumes they are running queries 24/7. In reality, subscriptions operate like gym memberships. 
+
+A tiny fraction of power users max out their limits every week. The vast majority of subscribers ask a couple of basic questions a day and close the tab. This average user is incredibly cheap to serve, and their high margins subsidize the power users.
+
+This is exactly why OpenAI and Anthropic are marketing so heavily to casual office workers. If you can get a million white-collar workers paying $20 a month to occasionally clean up an Excel formula or outline a PowerPoint deck, you have a massive pool of pure profit. They have zero agentic demands, consume almost no compute, and will never touch their quotas.
+
+---
+
+## The next step: Batch Mode Agentic Workflows
+
+If you look at where this is going, the next big change in token economics will be off-peak batch processing for agents.
+
+Right now, if I want to spin up a dozen Codex sessions to audit a codebase for minor security flaws or run test sweeps, I have to pay full price or consume my active subscription limits in real-time. But none of this work needs instant, sub-second responses. It can run in the background.
+
+If labs introduce a "batch mode" for coding agents that runs at a 90% discount during off-peak hours, it will completely change how we build software. 
+
+For the labs, this is how they reach 100% hardware utilization. The main bottleneck right now is that they use those quiet night hours to run massive training jobs for their next-generation models. But as more dedicated AI data centers get built out over the next few years, that capacity bottleneck is going to ease. 
+
+When it does, cheap overnight batch compute will be the next shift in how we work. Instead of waiting on interactive responses, we'll write a prompt, go to sleep, and wake up to find entire, complex projects built overnight for pennies.
+
+The subscription model isn't broken. Once the servers are racked, the marginal cost of a token drops close to zero. OpenAI isn't burning ten grand a month to host you. And if you're a power user constantly feeding high-quality debugging loops back into their training dataset, they are probably more than happy to let you keep coding.

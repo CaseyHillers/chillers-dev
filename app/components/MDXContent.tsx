@@ -8,6 +8,8 @@ import remarkGfm from 'remark-gfm';
 import 'highlight.js/styles/github-dark.css';
 import PostImage from './PostImage';
 import TokenUsageChart from './TokenUsageChart';
+import YouTube from './YouTube';
+import SubscriptionValueChart from './SubscriptionValueChart';
 
 interface MDXContentProps {
     content: string;
@@ -69,6 +71,8 @@ export default function MDXContent({ content }: MDXContentProps) {
                     img: PostImage,
                     PostImage,
                     TokenUsageChart,
+                    YouTube,
+                    SubscriptionValueChart,
                 }}
             />
         </div>
