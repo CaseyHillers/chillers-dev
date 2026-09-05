@@ -1,0 +1,42 @@
+---
+title: "Codex as a No Code Solution"
+date: "2026-09-05"
+description: "Using coding harnesses to avoid implementing code"
+topics:
+  - AI
+  - Agents
+---
+
+I find intrigue in the idea of "AI Operating Systems" such that an LLM controls all aspects of an app. Today, it is expensive, but I think there are use cases where it makes sense.
+
+## Using Codex for APIs
+
+In traditional software engineering, implementing a API involves writing code to handle and process the HTTP request and return a response.
+
+Naively, you could have `GET /echo` return `HTTP 200`. Code wise, this is very simple.
+
+What if you want build out a more complex solution, but are not familiar with code. You want to build something without spending money on someone that knows how to build a system.
+
+For example, you want to build a realty app that allows people to buy a home without paying a percentage fee to a realtor. The first thing you might want is a TODO list to be returned of the actions needed by someone. So we build `POST /start-process` that takes in the address of the home being bought. Instead of codifying what is needed, we can hand it off to Codex or Claude Code to run an agent and return a JSON format of the actions needing to be done. Based on the location, it could create a specialized list. Think relevant real estate attorneys, home inspectors that are highly reviewed, what to know about the area (such as parties across the street on the weekends). To build something out like this in code could take a year. Instead, we're building a pretty decent prototype with basic wrapper code.
+
+## How is this different from what people do today?
+
+I notice in my day-to-day that a lot of people are leveraging codex now, but they are missing a big value saving. When you build skills, you need to evaluate if you actually need LLM prompts. For example, I have a merge request skill, and it defers to a bash script for most of the process to avoid spending tokens and progammatic waiting (wait for ci to go green, merge, rebase, etc).
+
+Review the agent chats. Sometimes your agent is having env issues that need clarification. Such as Google Ads auth via MCP requiring specific things that conflict with gcloud auth. Fix those as you will encounter those on any session.
+
+## TailorMe Job Search Agent
+
+I run a small app called [TailorMe](https://www.tailorme.one?utm_source=chillers-dev) to help friends and family with their job search. It's also a sandbox for me to learn things like business development, digital ads, AI finetuning.
+
+I wanted to add a new feature to help notify people of relevant jobs in their area since the service already has their resume. One nuance is its hard to know what is of value to people. You could look at the last location they might on their resume, maybe look at jobs their applying to, but its difficult to make a right decision. I didn't know if anyone was going to be interested in this feature.
+
+For the first few test users, I had codex customize the search parameters and fine tune it. Even after several iterations of fine tuning the algorithm for extracting these search details from their data, results were subpar.
+
+My realization was I should have codex run as part of the tech stack. When creating search parameters, it is useful to have an agent to holistically look and adjust. Look at their resume, look at jobs they apply to, web search to get more context, and infer what options they want. Then it can adapt to any feedback that users give on the results they are getting.
+
+Long term, I suspect if the feature becomes popular, it will be easier to programatically define some of these gates. However, its only a $1 to allow for such customization.
+
+## Conclusion
+
+I don't think Codex is going to be a full no-code solution. However, its a great way to prove out features without much cost. Before you get to production workloads, have the feature be controlled by codex. It will be slower, more expensive, and unpredictable.
