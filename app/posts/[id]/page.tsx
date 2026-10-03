@@ -3,7 +3,6 @@ import { ArrowLeft } from 'lucide-react';
 import { getPostData, getAllPostIds } from '../../lib/posts';
 import { formatPostDate } from '../../lib/formatDate';
 import MDXContent from '../../components/MDXContent';
-import BlueskyCommentsWrapper from '../../components/BlueskyComments';
 import SiteHeader from '../../components/SiteHeader';
 
 export async function generateStaticParams() {
@@ -55,7 +54,6 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
                     <div className="mt-12 border-t border-border pt-10">
                         {post.content && <MDXContent content={post.content} />}
                     </div>
-                    <BlueskyCommentsWrapper author="chillers.dev" uri={post.blueskyId} />
                 </article>
             </div>
         </div>

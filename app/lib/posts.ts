@@ -12,14 +12,12 @@ export interface Post {
     topics: string[];
     readingTime: string;
     content?: string;
-    blueskyId?: string;
 }
 
 type PostFrontmatter = {
     title: string;
     date: string;
     description: string;
-    blueskyId?: string;
     topics?: string[];
 };
 
@@ -43,7 +41,6 @@ function normalizePost(id: string, data: PostFrontmatter, content?: string): Pos
         title: data.title,
         date: data.date,
         description: data.description,
-        blueskyId: data.blueskyId,
         topics,
         readingTime: getReadingTime(content ?? ''),
         content,

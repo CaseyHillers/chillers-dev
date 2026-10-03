@@ -37,11 +37,3 @@ pre {
   background: var(--ice);
   color: #0b0d12;
 }
-
-.bluesky-comments-wrapper {
-  color: var(--foreground);
-}
-
-.bluesky-comments-wrapper a {
-  color: var(--ice);
-}
