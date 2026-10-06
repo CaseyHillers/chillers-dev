@@ -1,6 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { load, JSON_SCHEMA } from 'js-yaml';
+
+// Use the maintained YAML API; gray-matter's default engine uses YAML 3's safeLoad.
+const matterOptions = {
+    engines: {
+        yaml: (source: string) => load(source, { schema: JSON_SCHEMA }) as PostFrontmatter,
+    },
+};
 
 const postsDirectory = path.join(process.cwd(), 'app/posts');
 
@@ -63,7 +71,7 @@ export async function getPostData(id: string): Promise<Post> {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
 
     // Use gray-matter to parse the post metadata section
-    const matterResult = matter(fileContents);
+    const matterResult = matter(fileContents, matterOptions);
 
     return normalizePost(id, matterResult.data as PostFrontmatter, matterResult.content);
 }
@@ -81,7 +89,7 @@ export function getAllPosts(): Post[] {
         const fileContents = fs.readFileSync(fullPath, 'utf8');
 
         // Use gray-matter to parse the post metadata section
-        const matterResult = matter(fileContents);
+        const matterResult = matter(fileContents, matterOptions);
 
         return normalizePost(id, matterResult.data as PostFrontmatter, matterResult.content);
     });

@@ -19,6 +19,8 @@ export default function MDXContent({ content }: MDXContentProps) {
     useEffect(() => {
         const processContent = async () => {
             const mdxSource = await serialize(content, {
+                blockJS: true,
+                blockDangerousJS: true,
                 mdxOptions: {
                     remarkPlugins: [remarkGfm],
                     rehypePlugins: [rehypeHighlight],

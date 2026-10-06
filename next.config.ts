@@ -10,6 +10,7 @@ const withMDX = createMDX({
 });
 
 const nextConfig: NextConfig = {
+  agentRules: false,
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   output: 'export',
   images: {

@@ -10,7 +10,7 @@ Recently I started at Arm working on the Crypto Operations team. This is a prett
 
 One of the interesting things about our workloads is we use HSMs (hardware security modules). At a glance, it looks like an expensive server, but it is actually a hardened appliance specializing in cryptographic operations. It includes physical sensors (chassis intrusion) that trigger a 'zeroization' (wiping keys) if tampered with. This avoids exfiltration of the various keys stored on the system.
 
-<PostImage src="https://cpl.thalesgroup.com/sites/default/files/content/paragraphs_type/image_with_col/2020-06/SafeNet-Luna-Network-HSM_0.png" alt="HSM rack" caption="HSM for network racks. Its pretty much a linux rack, but specialized in crypto operations with a few safety switches." style={{ height: '300px', width: 'auto' }} />
+<PostImage src="https://cpl.thalesgroup.com/sites/default/files/content/paragraphs_type/image_with_col/2020-06/SafeNet-Luna-Network-HSM_0.png" alt="HSM rack" caption="HSM for network racks. Its pretty much a linux rack, but specialized in crypto operations with a few safety switches." className="h-[300px] w-auto" />
 
 My first project was an attestation service based on AWS. However, many cryptographic requirements (specifically the choice of algorithms) were defined before our team was formed. This architectural inertia led to significant inefficiencies in the new service.
 
