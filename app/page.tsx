@@ -1,133 +1,101 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { getAllPosts } from "./lib/posts";
-import { formatPostDate } from "./lib/formatDate";
+import { getAllPosts, type Post } from "./lib/posts";
 import SiteHeader from "./components/SiteHeader";
+import SiteFooter from "./components/SiteFooter";
+import PhotoStrip, { type StripFrame } from "./components/PhotoStrip";
+
+// Photographs from the posts (with their alt text and captions), resized for the strip in public/strip.
+const stripFrames: StripFrame[] = [
+  { src: "/strip/digitizing_film_japan.jpg", width: 1068, height: 720, alt: "Negative of Japan", caption: "Negative of Japan", postId: "digitization", postTitle: "Digitizing Media" },
+  { src: "/strip/niagara.jpg", width: 540, height: 720, alt: "Niagara Falls", caption: "Niagara Falls Presidential Suite", postId: "2025", postTitle: "Reflection on 2025" },
+  { src: "/strip/digitizing_vhs.jpg", width: 542, height: 720, alt: "VHS station", caption: "VHS tape digitization station.", postId: "digitization", postTitle: "Digitizing Media" },
+  { src: "/strip/digitizing_film.jpg", width: 956, height: 720, alt: "Box of negatives", caption: "A box of negatives", postId: "digitization", postTitle: "Digitizing Media" },
+  { src: "/strip/digitizing_garage_boxes.jpg", width: 540, height: 720, alt: "Large amount of collapsed boxes on the side of the garage", caption: "Collapsed boxes after the three-day garage sale.", postId: "digitization", postTitle: "Digitizing Media" },
+  { src: "/strip/digitizing_film_disneyland.jpg", width: 1068, height: 720, alt: "Negative of Disneyland", caption: "Negative of Disneyland", postId: "digitization", postTitle: "Digitizing Media" },
+];
+
+function groupByYear(posts: Post[]) {
+  const years = new Map<string, Post[]>();
+  for (const post of posts) {
+    const year = post.date.slice(0, 4);
+    years.set(year, [...(years.get(year) ?? []), post]);
+  }
+  return Array.from(years.entries());
+}
+
+function formatShortDate(date: string) {
+  return new Date(`${date}T00:00:00`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+}
 
 export default function HomePage() {
   const posts = getAllPosts();
-  const featuredPost = posts.find((post) => post.id === "1b_tokens") ?? posts[0];
-  const recentPosts = featuredPost
-    ? posts.filter((post) => post.id !== featuredPost.id)
-    : posts;
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-svh bg-background text-foreground">
       <SiteHeader />
 
       <main>
-        <section className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-[0.82fr_1.18fr] lg:px-8 lg:py-14">
-          <div className="flex flex-col justify-center">
-            <div className="mb-6 flex items-center gap-4">
-              <Image
-                src="/profile.png"
-                alt="Casey Hillers profile photo"
-                width={72}
-                height={72}
-                className="h-16 w-16 flex-none rounded-full border border-border object-cover shadow-lg shadow-black/20 sm:h-[72px] sm:w-[72px]"
-              />
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted">
-                  Casey Hillers
-                </p>
-                <p className="mt-1 text-sm font-medium text-ice">
-                  AI tooling, systems, and practical engineering notes
-                </p>
-              </div>
-            </div>
-            <h1 className="max-w-3xl text-3xl font-semibold leading-tight tracking-tight text-ice-strong sm:text-4xl lg:text-5xl">
+        <section className="flex flex-col gap-10 pt-4 sm:pt-8">
+          <PhotoStrip frames={stripFrames} />
+
+          <div className="px-margin">
+            <h1 className="hero-name">Casey Hillers</h1>
+            <p className="mt-4 max-w-[38ch] text-lead leading-snug">
               Field notes from building with AI, infrastructure, and the work
               between.
-            </h1>
-          </div>
-
-          <div className="flex items-center">
-            {featuredPost ? (
-              <Link
-                href={`/posts/${featuredPost.id}`}
-                className="group flex w-full lg:translate-y-12"
-                aria-label={`Read ${featuredPost.title}`}
-              >
-                <article className="flex w-full flex-col rounded-lg border border-border bg-surface/80 p-5 transition hover:border-ice/55 hover:bg-surface-2 sm:p-6">
-                  <div>
-                    <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
-                      <span className="font-semibold uppercase tracking-[0.18em] text-ice">
-                        Featured post
-                      </span>
-                      <span aria-hidden="true">/</span>
-                      <span>{formatPostDate(featuredPost.date)}</span>
-                      <span aria-hidden="true">/</span>
-                      <span>{featuredPost.readingTime}</span>
-                    </div>
-                    <h2 className="mt-5 text-2xl font-semibold tracking-tight text-ice-strong transition group-hover:text-ice sm:text-3xl">
-                      {featuredPost.title}
-                    </h2>
-                    <p className="mt-4 leading-7 text-muted">
-                      {featuredPost.description}
-                    </p>
-                  </div>
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {featuredPost.topics.map((topic) => (
-                      <span
-                        key={topic}
-                        className="rounded-md border border-border bg-background/60 px-2.5 py-1 text-xs font-medium text-muted"
-                      >
-                        {topic}
-                      </span>
-                    ))}
-                  </div>
-                </article>
-              </Link>
-            ) : null}
+            </p>
           </div>
         </section>
 
-        <section id="posts" className="mx-auto max-w-6xl border-t border-border/70 px-4 py-10 sm:px-6 lg:px-8">
-          <div className="mb-8 flex items-center justify-between gap-4">
-            <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+        <section id="posts" className="mt-16 px-margin sm:mt-20">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+            <h2 className="font-display text-lead">
               Latest posts
             </h2>
-            <p className="hidden text-sm text-muted sm:block">
+            <p className="text-muted">
               Engineering notes, experiments, and personal projects.
             </p>
           </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            {recentPosts.map((post) => (
-              <Link
-                key={post.id}
-                href={`/posts/${post.id}`}
-                className="group block"
-                aria-label={`Read ${post.title}`}
-              >
-                <article className="flex h-full flex-col rounded-lg border border-border bg-surface/70 p-5 transition hover:-translate-y-0.5 hover:border-ice/50 hover:bg-surface-2">
-                  <div className="flex flex-wrap items-center gap-2 text-sm text-muted">
-                    <span>{formatPostDate(post.date)}</span>
-                    <span aria-hidden="true">/</span>
-                    <span>{post.readingTime}</span>
-                  </div>
-                  <h3 className="mt-4 text-xl font-semibold tracking-tight text-foreground transition group-hover:text-ice">
-                    {post.title}
-                  </h3>
-                  <p className="mt-3 flex-1 leading-7 text-muted">
-                    {post.description}
-                  </p>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {post.topics.slice(0, 3).map((topic) => (
-                      <span
-                        key={topic}
-                        className="rounded-md bg-background/70 px-2.5 py-1 text-xs font-medium text-muted"
-                      >
-                        {topic}
+
+          {groupByYear(posts).map(([year, yearPosts]) => (
+            <div key={year} className="mt-8 sm:mt-10">
+              <h3 className="py-3 text-lead text-accent">{year}</h3>
+              <ol>
+                {yearPosts.map((post) => (
+                  <li key={post.id}>
+                    <Link
+                      href={`/posts/${post.id}`}
+                      className="post-row grid gap-x-10 gap-y-1 py-5 lg:grid-cols-[minmax(0,6fr)_minmax(0,3fr)_minmax(0,2fr)]"
+                    >
+                      <span>
+                        <span className="post-row-title block text-lead leading-snug">
+                          {post.title}
+                        </span>
+                        <span className="mt-1 block max-w-[60ch] text-muted">
+                          {post.description}
+                        </span>
                       </span>
-                    ))}
-                  </div>
-                </article>
-              </Link>
-            ))}
-          </div>
+                      <span className="hidden text-lead leading-snug text-muted lg:block">
+                        {post.topics.join(", ")}
+                      </span>
+                      <span className="text-small text-muted tabular-nums lg:text-right lg:text-lead lg:leading-snug">
+                        <span className="text-foreground">{formatShortDate(post.date)}</span>
+                        <span className="lg:hidden"> · {post.readingTime}</span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ))}
         </section>
       </main>
+
+      <SiteFooter />
     </div>
   );
 }

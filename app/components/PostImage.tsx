@@ -28,7 +28,7 @@ export default function PostImage({
     const trimmedCaption = resolvedCaption?.trim();
     const hasCaption = Boolean(trimmedCaption);
     const imageClassName = [
-        'block max-w-full rounded-lg border border-border bg-surface/60 shadow-lg shadow-black/15 transition-transform duration-300 group-hover:scale-[1.01]',
+        'block max-w-full bg-surface transition-transform duration-300 group-hover:scale-[1.01]',
         className,
     ]
         .filter(Boolean)
@@ -59,7 +59,7 @@ export default function PostImage({
         <figure className="not-prose my-8 flex flex-col items-center gap-3">
             <button
                 type="button"
-                className="group mx-auto inline-flex cursor-zoom-in rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ice/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="group mx-auto inline-flex cursor-zoom-in overflow-hidden"
                 aria-label={hasCaption ? `Enlarge image: ${trimmedCaption}` : 'Enlarge image'}
                 onClick={() => setIsOpen(true)}
             >
@@ -75,21 +75,21 @@ export default function PostImage({
                 />
             </button>
             {hasCaption ? (
-                <figcaption id={captionId} className="max-w-2xl text-center text-sm leading-6 text-muted">
+                <figcaption id={captionId} className="max-w-2xl text-center text-small text-muted">
                     {trimmedCaption}
                 </figcaption>
             ) : null}
             {isOpen && typeof document !== 'undefined'
                 ? createPortal(
                       <div
-                          className="fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-black/80 px-4 py-8 backdrop-blur-sm"
+                          className="fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-black/90 px-4 py-8"
                           onPointerDown={() => setIsOpen(false)}
                           role="dialog"
                           aria-modal="true"
                       >
                           <button
                               type="button"
-                              className="absolute right-5 top-5 rounded-md border border-border bg-surface/90 px-3 py-1 text-sm text-foreground shadow-lg transition hover:bg-surface"
+                              className="absolute right-5 top-5 bg-surface px-4 py-2 text-small text-foreground transition hover:text-accent"
                               onClick={() => setIsOpen(false)}
                           >
                               Close
@@ -97,7 +97,7 @@ export default function PostImage({
                           <img
                               src={zoomSrc ?? src}
                               alt={alt ?? ''}
-                              className="max-h-[90vh] max-w-[90vw] rounded-lg border border-border bg-surface shadow-2xl"
+                              className="max-h-[90vh] max-w-[90vw] bg-surface"
                               onPointerDown={(event) => event.stopPropagation()}
                           />
                       </div>,

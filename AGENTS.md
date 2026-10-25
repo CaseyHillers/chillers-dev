@@ -35,10 +35,10 @@ This document provides context for Gemini (or other AI assistants) about the `ch
 ### Modifying Styles
 - Global styles are in `app/globals.css`.
 - Tailwind is used throughout for component-level styling.
-- The blog content styling is managed via `@tailwindcss/typography` (the `prose` class) within the `MDXContent` and `MDXWrapper` components.
+- The blog content styling is managed via `@tailwindcss/typography` (the `prose` class) within the `MDXContent` component.
 
 ### Personal Links
-- Social media links (LinkedIn, GitHub, Bluesky) are currently hardcoded in `app/page.tsx`.
+- Social media links (LinkedIn, GitHub) live in `app/lib/links.ts` and are used by the site header.
 
 ### MDX Rendering
 - Blog posts are rendered using the `MDXContent` component located in `app/components/MDXContent.tsx`.

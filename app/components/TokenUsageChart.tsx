@@ -33,8 +33,8 @@ const formatPrecise = (value: number) => new Intl.NumberFormat('en-US').format(v
 
 export default function TokenUsageChart() {
     return (
-        <figure className="not-prose my-8 rounded-2xl border border-border bg-surface/50 p-4 md:p-6">
-            <figcaption className="mb-4 text-sm text-muted">Monthly token usage trend</figcaption>
+        <figure className="not-prose my-8 bg-surface p-4 md:p-6" data-ui>
+            <figcaption className="mb-4 text-small text-muted">Monthly token usage trend</figcaption>
             <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
@@ -75,9 +75,9 @@ export default function TokenUsageChart() {
                         <Line
                             type="monotone"
                             dataKey="tokens"
-                            stroke="#4285f4"
+                            stroke="#7dd3fc"
                             strokeWidth={3}
-                            dot={{ r: 4, fill: '#4285f4' }}
+                            dot={{ r: 4, fill: '#7dd3fc' }}
                             activeDot={{ r: 6 }}
                         />
                     </LineChart>

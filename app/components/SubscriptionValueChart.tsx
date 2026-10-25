@@ -26,8 +26,8 @@ const data: PlanData[] = [
 
 export default function SubscriptionValueChart() {
     return (
-        <figure className="not-prose my-8 rounded-2xl border border-border bg-surface/50 p-4 md:p-6">
-            <figcaption className="mb-4 text-sm text-muted">
+        <figure className="not-prose my-8 bg-surface p-4 md:p-6" data-ui>
+            <figcaption className="mb-4 text-small text-muted">
                 Subscription Cost vs. Equivalent API Token Value (Monthly)
             </figcaption>
             <div className="h-[300px] w-full">

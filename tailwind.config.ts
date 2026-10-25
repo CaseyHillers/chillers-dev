@@ -10,48 +10,78 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: "var(--bg)",
+        foreground: "var(--ink)",
         surface: "var(--surface)",
-        "surface-2": "var(--surface-2)",
-        border: "var(--border)",
         muted: "var(--muted)",
-        ice: "var(--ice)",
-        "ice-strong": "var(--ice-strong)",
+        accent: "var(--accent)",
+        border: "var(--line)",
+      },
+      fontFamily: {
+        display: "var(--font-display)",
+        sans: "var(--font-text)",
+      },
+      fontSize: {
+        small: "var(--step-small)",
+        body: "var(--step-body)",
+        lead: "var(--step-lead)",
+        head: "var(--step-head)",
+      },
+      spacing: {
+        margin: "var(--margin)",
+        section: "var(--section)",
       },
       typography: {
         DEFAULT: {
           css: {
             maxWidth: 'none',
             color: 'inherit',
+            fontSize: 'inherit',
+            lineHeight: '1.65',
             a: {
-              color: 'var(--ice)',
+              color: 'inherit',
+              fontWeight: '500',
+              textDecorationColor: 'var(--accent)',
+              textUnderlineOffset: '0.25em',
               '&:hover': {
-                color: 'var(--ice-strong)',
+                color: 'var(--accent)',
               },
             },
-            h1: {
+            'h1, h2, h3, h4': {
               color: 'inherit',
             },
             h2: {
-              color: 'inherit',
+              fontFamily: 'var(--font-display)',
+              fontWeight: '400',
+              fontSize: 'var(--step-lead)',
+              letterSpacing: '-0.01em',
+              marginTop: '2.5em',
             },
             h3: {
-              color: 'inherit',
+              fontSize: '1em',
+              fontWeight: '600',
             },
-            h4: {
+            strong: {
               color: 'inherit',
             },
             code: {
               color: 'inherit',
             },
             pre: {
-              backgroundColor: 'var(--surface-2)',
-              border: '1px solid var(--border)',
+              backgroundColor: 'var(--surface)',
+              borderRadius: '0',
               color: 'inherit',
             },
             blockquote: {
-              color: 'var(--muted)',
+              borderLeft: '0',
+              backgroundColor: 'var(--surface)',
+              padding: '0.25em 1.25em',
+              color: 'inherit',
+              fontStyle: 'normal',
+            },
+            hr: {
+              border: '0',
+              margin: '3em 0',
             },
           },
         },

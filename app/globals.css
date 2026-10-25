@@ -3,37 +3,137 @@
 @tailwind utilities;
 
 :root {
-  --background: #080b10;
-  --foreground: #e7edf5;
+  --bg: #080b10;
   --surface: #10151d;
-  --surface-2: #151c27;
-  --border: #243041;
-  --muted: #9aa8b8;
-  --ice: #7dd3fc;
-  --ice-strong: #d5f3ff;
+  --ink: #e7edf5;
+  --muted: #a3b0bf;
+  --accent: #7dd3fc;
+  --accent-ink: #061018;
+  --line: #243041;
+
+  --font-display: "Zodiak", Georgia, serif;
+  --font-text: "Hanken Grotesk", system-ui, sans-serif;
+
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(1.75rem, 0.9rem + 4.1vw, 4.25rem);
+
+  --margin: clamp(1rem, 3vw, 2.5rem);
+  --section: clamp(7rem, 12vw, 11rem);
+  --strip-h: clamp(180px, 30svh, 320px);
 }
 
 html {
-  scroll-behavior: smooth;
+  background: var(--bg);
 }
 
 body {
-  color: var(--foreground);
-  min-height: 100vh;
-  background:
-    linear-gradient(180deg, rgba(14, 24, 36, 0.72) 0%, rgba(8, 11, 16, 0) 520px),
-    var(--background);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--step-body);
+  line-height: 1.55;
 }
 
+/* Monospace is reserved for real code in posts. */
 code,
 kbd,
 samp,
 pre {
-  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace; /* taste-skill-ignore */
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
 }
 
 ::selection {
-  background: var(--ice);
-  color: #0b0d12;
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+:target {
+  scroll-margin-top: 4rem;
+}
+
+/* ---------- shared controls ---------- */
+
+.link {
+  text-decoration-line: underline;
+  text-decoration-color: color-mix(in srgb, var(--ink) 35%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition:
+    color 200ms ease,
+    text-decoration-color 200ms ease;
+}
+
+.link:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+/* Long post titles step down on small screens so they still fit in two lines. */
+.title-long {
+  font-size: clamp(1.5625rem, 0.4rem + 4.8vw, 4.25rem);
+}
+
+/* ---------- hero ---------- */
+
+.hero-name {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--step-head);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --strip-h: 32svh;
+  }
+}
+
+/* The strip of photographs from the posts scrolls sideways. */
+.strip-track {
+  scrollbar-color: var(--line) transparent;
+  scrollbar-width: thin;
+}
+
+.strip-frame img {
+  height: var(--strip-h);
+  width: auto;
+  max-width: none;
+}
+
+/* ---------- archive rows ---------- */
+
+.post-row .post-row-title {
+  transition: color 200ms ease;
+}
+
+.post-row:hover .post-row-title,
+.post-row:focus-visible .post-row-title {
+  color: var(--accent);
+}
+
+/* A row of images in a post shares the column instead of running past it. */
+@media (min-width: 640px) {
+  .prose .flex > figure {
+    min-width: 0;
+    flex: 1 1 0;
+  }
+
+  .prose .flex > figure img {
+    width: 100%;
+    height: auto !important;
+  }
 }

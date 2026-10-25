@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
-import { getPostData, getAllPostIds } from '../../lib/posts';
+import { getPostData, getAllPostIds, getAllPosts } from '../../lib/posts';
 import { formatPostDate } from '../../lib/formatDate';
 import MDXContent from '../../components/MDXContent';
 import SiteHeader from '../../components/SiteHeader';
+import SiteFooter from '../../components/SiteFooter';
 
 export async function generateStaticParams() {
     const paths = getAllPostIds();
@@ -14,54 +14,72 @@ export default async function Post({ params }: { params: Promise<{ id: string }>
     const { id } = await params;
     const post = await getPostData(id);
 
-    return (
-        <div className="min-h-screen bg-background text-foreground">
-            <SiteHeader />
-            <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
-                <Link
-                    href="/"
-                    className="mb-10 inline-flex items-center gap-2 rounded-md text-sm font-medium text-muted transition hover:text-ice"
-                >
-                    <ArrowLeft size={16} aria-hidden="true" />
-                    Back to home
-                </Link>
+    const allPosts = getAllPosts();
+    const index = allPosts.findIndex((entry) => entry.id === id);
+    const newer = index > 0 ? allPosts[index - 1] : undefined;
+    const older = index >= 0 ? allPosts[index + 1] : undefined;
 
+    const details = [
+        formatPostDate(post.date),
+        post.readingTime,
+        post.topics.join(', '),
+        post.uploaded ? `Uploaded: ${formatPostDate(post.uploaded)}` : null,
+    ].filter(Boolean);
+
+    return (
+        <div className="min-h-svh bg-background text-foreground">
+            <SiteHeader />
+            <main className="px-margin">
                 <article>
-                    <div className="max-w-3xl">
-                        <div className="mb-5 flex flex-wrap items-center gap-3 text-sm text-muted">
-                            <span>{formatPostDate(post.date)}</span>
-                            {post.uploaded && (
-                                <>
-                                    <span aria-hidden="true">•</span>
-                                    <span>Uploaded: {formatPostDate(post.uploaded)}</span>
-                                </>
-                            )}
-                            <span aria-hidden="true">/</span>
-                            <span>{post.readingTime}</span>
-                        </div>
-                        <h1 className="text-4xl font-semibold leading-tight tracking-tight text-ice-strong sm:text-5xl">
+                    <header className="mx-auto max-w-[60rem] pt-12 sm:pt-20">
+                        <h1
+                            className={`font-display text-head font-light leading-[1.02] tracking-[-0.01em] ${
+                                post.title.length > 40 ? 'title-long' : ''
+                            }`}
+                        >
                             {post.title}
                         </h1>
-                        <p className="mt-5 text-lg leading-8 text-muted sm:text-xl">
+                        <p className="mt-8 max-w-[46ch] text-lead leading-snug">
                             {post.description}
                         </p>
-                        <div className="mt-6 flex flex-wrap gap-2">
-                            {post.topics.map((topic) => (
-                                <span
-                                    key={topic}
-                                    className="rounded-md border border-border bg-surface px-2.5 py-1 text-xs font-medium text-muted"
-                                >
-                                    {topic}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
+                        <p className="mt-5 text-small text-muted">
+                            {details.join(' · ')}
+                        </p>
+                    </header>
 
-                    <div className="mt-12 border-t border-border pt-10">
+                    <div className="mx-auto mt-14 max-w-[42rem] sm:mt-20">
                         {post.content && <MDXContent content={post.content} />}
                     </div>
                 </article>
-            </div>
+
+                {newer || older ? (
+                    <nav
+                        aria-label="More posts"
+                        className="mx-auto mt-section grid max-w-[60rem] gap-10 sm:grid-cols-2"
+                    >
+                        <h2 className="sr-only">More posts</h2>
+                        {older ? (
+                            <Link href={`/posts/${older.id}`} className="post-row block">
+                                <span className="post-row-title block font-display text-lead leading-snug">
+                                    {older.title}
+                                </span>
+                                <span className="mt-2 block text-small text-muted">Older post</span>
+                            </Link>
+                        ) : (
+                            <span />
+                        )}
+                        {newer ? (
+                            <Link href={`/posts/${newer.id}`} className="post-row block sm:text-right">
+                                <span className="post-row-title block font-display text-lead leading-snug">
+                                    {newer.title}
+                                </span>
+                                <span className="mt-2 block text-small text-muted">Newer post</span>
+                            </Link>
+                        ) : null}
+                    </nav>
+                ) : null}
+            </main>
+            <SiteFooter />
         </div>
     );
-} 
+}
