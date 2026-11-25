@@ -1,0 +1,90 @@
+---
+title: "Erosion of Software Security"
+date: "2026-11-25"
+description: "Myth or Mythos"
+topics:
+  - AI
+  - Security
+  - Agents
+---
+
+The past month has been a long year in the tech world. At least five critical CVEs (publicly disclosed vulnerabilities scored 9.0+ out of 10) were released across some of the most popular projects on the internet. To recap some of the biggest headlines:
+
+- **eMudhra CAs:** Eight intermediate certificate authorities (the middlemen that vouch for a website's HTTPS certificate) trusted by most browsers had private keys that fit in less than 8 bits. Anyone could guess them in 256 tries ([link](https://www.bleepingcomputer.com/news/security/mozilla-google-apple-block-compromised-emudhra-ca-certificates/))
+- **PHP2Shell:** A pair of 9.2 PHP flaws that let attackers run code on a server without logging in, along with a slew of copycats ([link](https://watchtowr.com/intelligence/php-remote-code-execution-php2shell/))
+- **Linux TCP:** A 9.8 remote code execution bug (an attacker can run anything on your machine) in how the kernel handles TCP connections, dating back to Linux 4.4 ([CVE-2026-98432](https://www.yorku.ca/uit/infosec/2026/11/10/linux-kernel-remote-code-execution-vulnerability-cve-2026-98432/))
+- **NGINX2Root:** Five critical Nginx flaws, led by an HTTP/2 bug that has been sitting in the code since 2015 ([CVE-2026-123007](https://www.tenable.com/blog/nginx2root-cve-2026-123007-frequently-asked-questions-about-five-critical-nginx))
+
+## Why is this happening?
+
+Anthropic's Mythos took the tech news by storm with its big claims of finding thousands of zero-day vulnerabilities (bugs nobody had found yet) across critical software ([Project Glasswing](https://www.anthropic.com/glasswing)). Access is still limited to a short list of trusted cybersecurity experts ([Mythos 5.2](https://www.anthropic.com/claude-fable-and-mythos-5-2)).
+
+It took a while, but I think we are finally seeing the realized impact of these "super intelligence" models on the world.
+
+With coding agents, vulnerability finding can be automated at a financial cost. A notable addition to the toolkit is [Reverse Engineer Anything (REA)](https://github.com/morluto/rea). Even without the source code, coding agents can hack their way into finding vulnerabilities in anything.
+
+REA is more known for GTA VI PC ports and the fad of advanced PC mods merging various video games into one, but people are using it in professional environments.
+
+A common way to protect your code was to only give customers a compiled binary. Humans couldn't easily figure out how it worked or make changes to it. With REA, a coding agent can make any edit it wants to the machine code to achieve the prompt.
+
+Naively, you might think a server is safe since nobody gets the binary. But even a black box API can be probed. Using the same principles as REA, an agent can keep calling the RPCs until it has a working copy of the system.
+
+## What risks do I have?
+
+- **Your binaries aren't a secret:** If you ship it, an agent can read it and patch it
+- **Your APIs aren't a black box:** Anything with an endpoint can be cloned
+- **The patch window is shrinking:** Finding a vulnerability used to take a skilled human weeks. Now it takes tokens
+
+## Can AI dig us out?
+
+I am a big proponent of AI native software development. While coding agents have removed the bottleneck of writing new software, they have dramatically increased our liability.
+
+To quote one of my favorite movies of the year:
+
+> "Digger here got us into this mess, and Digger's gonna dig us out again." -- Digger (2026)
+
+And to tweak it for the topic at hand:
+
+> "[AI] got us into this mess, and [AI's] gonna dig us out again." -- tech bro
+
+Coding agents can be pointed at security too. Last year I paired Metis, Arm's security review agent, with Codex to work through findings on my team's codebase ([Agents All the Way Down](/posts/agents_all_the_way_down)). A 2 week task took me 3 days. I accepted about half of the fixes, and the best ones were less than 10 LOC.
+
+Instead of spending all your AI budget on building new features, we need to revisit spending time on security improvements.
+
+It is hard to build a feature that gets everything right in one go. Before generative AI, my teams would dedicate a week or two every quarter to bug fixes and security hackathons. You don't need to wait for that anymore. Have your favorite agent go through:
+
+- **Tests:** Unit, integration, and E2E
+- **Security:** Dependency audits, auth flows, input validation
+- **Monitoring:** Would you know if something broke at 3 AM?
+- **Performance and cost:** What happens at 10x traffic?
+- **UX and localization:** Does it still work for everyone?
+- **Maintainability:** Could a new teammate (or agent) pick this up?
+
+## What can I do to mitigate my risks?
+
+### Less Code
+
+> "If I had more time, I would have written a shorter letter" -- Blaise Pascal
+
+The number one risk in cybersecurity is having code. Every line you ship is something an attacker can read and something you need to review. Same goes for every dependency you pull in.
+
+While a lot of people see coding agents spitting out thousands of lines of code as amazing, we should start to realize the liability it is giving us. Point your agents at deleting code, not just adding it.
+
+### Frequent and Fast Updates
+
+Any tool or service you maintain should be able to be updated fast.
+
+For example, my blog runs on a server I maintain myself. When the Nginx CVE dropped, it took me a few minutes to patch, but several hours before I even saw it. For a blog, this isn't a big deal, but we need to evaluate these trade-offs based on the service.
+
+Some quick wins:
+
+- **Dependabot:** Turn on security updates so patches open right away, plus weekly updates for everything else
+- **Server updates:** Turn on `unattended-upgrades` for Ubuntu, or if cost is no issue, run serverless to avoid maintaining an operating system
+- **[Codex Security](https://developers.openai.com/blog/building-security-review-into-your-sdlc-with-codex-security):** Schedule weekly runs against your codebases
+- **Alerts:** Subscribe to security advisories for your stack so you hear about the next CVE in minutes, not hours
+
+## So, myth or Mythos?
+
+Recapping, the hype was real. Finding vulnerabilities is now cheap, which means the time between a CVE dropping and someone exploiting it is shrinking. Write less code, patch faster, and spend some of that AI budget digging yourself out.
+
+Happy fixing!
